@@ -1,0 +1,31 @@
+L = 4.5 * 10^(-3);
+R_s = 0.1;
+R_l = 23.04;
+phi = 0;
+omega = 2*pi*60;
+T = 2*pi/omega;
+tau = L/R_s; %R_l will be ignored as the switch is closed and no current is flowing through it
+
+B = 4800*sqrt(2)/(1 + 1i*omega*tau);
+
+d_t = T/1000; % chose this value as 7*tau/1000 = 0.00032 while T/1000 = 0.0000167
+t = 0: d_t: 7*tau; % to show 2 periods in the resultant graph
+a = d_t / tau;
+b = 1 - a;
+
+v_s = 480*sqrt(2)*cos(omega*d_t + phi); %discretized functions
+i_l_0 = 0;
+i_s = v_s/R_s*ones(size(t));
+i_l = zeros(size(t));
+
+for n = 1:1:length(t) - 1
+    if n == 1
+        i_l = i_l_0;
+    end
+    i_l(n+1) = a*i_s(n) + b*i_l(n); %worked out discrete time equation
+end
+
+figure(1);
+plot(t, i_l)
+xlabel('Time:sec');
+ylabel('Current: A');
