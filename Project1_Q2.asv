@@ -11,24 +11,23 @@ a = (delta_t/tau);
 % Used to initialize the output signal
 z = ones(size(t));
 y = ones(size(t));
-y(1) = x(1);
 % Loop for high-pass filter
 for n=2:length(x)
-    y(n) = (y(n-1)+x(n)-x(n-1))/(1 + a);
+    y(n) = a*(x(n+1)-x(n)-y(n));
 end
 
-sound(y, Fs); % Play the filtered audio
+sound(z, Fs); % Play the filtered audio
 
 figure;
 subplot(2,1,1); % First subplot for original audio
 plot(t, x);
-title('Original Audio');
-xlabel('Time: sec');
-ylabel('Amplitude: Hz');
+title('Original Audio Signal');
+xlabel('Time (s)');
+ylabel('Amplitude');
 
 subplot(2,1,2); % Second subplot for filtered audio
-plot(t, y);
-title('Filtered Audio');
-xlabel('Time: sec');
+plot(t, z);
+title('Filtered Audio Signal (High-Pass)');
+xlabel('Time (s)');
 
 %If you only knew the power of the dark side

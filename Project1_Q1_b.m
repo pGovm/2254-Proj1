@@ -12,8 +12,9 @@ d_t = T/1000; % chose this value as 7*tau/1000 = 0.00032 while T/1000 = 0.000016
 t = 0: d_t: 7*tau; % to show 2 periods in the resultant graph
 a = d_t / tau;
 b = 1 - a;
-
-v_s = 480*sqrt(2)*cos(omega*d_t + phi); %discretized functions
+disp(abs(B));
+disp(rad2deg(angle(B)));
+v_s = 480*sqrt(2)*cos(omega*d_t + phi); %discretized function
 i_l_0 = 0;
 i_s = v_s/R_s*ones(size(t));
 i_l = zeros(size(t));
