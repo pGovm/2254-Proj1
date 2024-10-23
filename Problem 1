@@ -1,0 +1,36 @@
+% MATLAB script to solve for the current i_s(t) after t = 0
+
+% Parameters
+Vs = 480 * sqrt(2);    % Amplitude of the source voltage (V)
+f = 60;                % Frequency (Hz)
+omega = 2 * pi * f;    % Angular frequency (rad/s)
+phi = 0;               % Phase angle (radians)
+
+Rs = 0.96;             % Source resistance (Ohms)
+Ls = 0.0025465;        % Source inductance (Henrys)
+
+% Time parameters
+dt = 1e-4;             % Time step (seconds)
+t_end = 0.035;         % End time (seconds)
+t = 0:dt:t_end;        % Time vector
+
+% Initialize current vector
+is = zeros(size(t));   % Current array
+is(1) = 0;             % Initial condition i_s(0) = 0
+
+% Source voltage
+vs = Vs * cos(omega * t + phi);  % Source voltage array
+
+% Numerical solution using Euler's method
+for k = 1:length(t)-1
+    dis_dt = (vs(k) - Rs * is(k)) / Ls;  % Differential equation
+    is(k+1) = is(k) + dis_dt * dt;       % Update current
+end
+
+% Plot the current
+figure;
+plot(t, is);
+xlabel('Time (s)');
+ylabel('Current (A)');
+title('Current i_s(t) after t = 0');
+grid on;
