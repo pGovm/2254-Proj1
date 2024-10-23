@@ -1,0 +1,22 @@
+% Load the audio data
+load('sampleaudio.mat');  % x: audio data, Fs: sampling frequency
+
+% Parameters
+R = 1;                     % Resistance in Ohms
+C = 265.26e-6;             % Capacitance in Farads
+Delta_t = 1 / Fs;          % Sampling period
+alpha = Delta_t / (R * C); % Alpha parameter
+
+% Initialize output vector
+y = zeros(size(x));        % Pre-allocate for efficiency
+y(1) = x(1);               % Initial condition
+
+% Apply the recursive filter
+for n = 2:length(x)
+    y(n) = (y(n-1) + x(n) - x(n-1)) / (1 + alpha);
+end
+
+
+
+% Play the filtered audio
+sound(y, Fs);
